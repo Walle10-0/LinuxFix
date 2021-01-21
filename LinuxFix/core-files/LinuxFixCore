@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# 2020 Update : I think I've fixed it, but I'm not sure, run at your own risk.
+
+
+# Core script : This script has which scripts get run and which order
+
+
+# Change passwords
+$PWD/"core-files"/PasswdHack
+
+# Purge Maleware/Hacking tools
+$PWD/"core-files"/HackZap
+
+# Install critical software
+$PWD/"core-files"/SoftwareSuperman
+
+# Remove .mp3 files
+$PWD/"core-files"/"MP3_Murderer"
+
+# Update
+$PWD/"core-files"/UpdateProtocall
+
+# Settings
+$PWD/"core-files"/SettingsAssistant
+
+# File permissions
+$PWD/"core-files"/FileLock
+
+# Firewall
+$PWD/"core-files"/FirewallForger
+
+# Firefox(Debian Only)
+if [ $(basename $(lsb_release -a 2> /dev/null | sed -n 's/.*ID://p')) = Debian ]
+then
+$PWD/"core-files"/FirefoxFix
+fi
+
+
+# Friendly Reminder
+clear
+echo " "
+echo "IMPORTANT! all passwords have been changed to (g3_WASD[c00k]"
+echo ""
+echo -n "Press ENTER to continue"
+read
+
+# View user's files
+$PWD/"core-files"/ServerSpy
+

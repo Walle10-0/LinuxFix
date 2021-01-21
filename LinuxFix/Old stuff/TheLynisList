@@ -1,0 +1,26 @@
+#!/bin/bash
+
+clear
+echo ""
+echo "		The Lynis List v0.0"
+echo ""
+echo "		Random cyber security stuff..."
+echo ""
+echo -n "press ENTER to do cyber security stuff"
+read
+
+echo ""
+
+# pwquality
+cp $PWD/"core files"/settings/common-auth /etc/pam.d/common-auth
+cp $PWD/"core files"/settings/common-password /etc/pam.d/common-password
+
+# /etc/login.defs
+cp $PWD/"core files"/settings/login.defs /etc/login.defs
+
+# sudoers
+cp $PWD/"core files"/settings/sudoers /etc/sudoers
+
+# Network Configurations
+cp $PWD/"core files"/settings/sysctl.conf /etc/sysctl.conf
+sysctl -p

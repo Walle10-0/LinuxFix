@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Purge Maleware/Hacking tools
+
+clear
+echo ""
+echo "	    X	X   XXX	   XXX	X  X"
+echo "	    X	X  X   X  X	X X"
+echo "	    XXXXX  XXXXX  X	XX  --+--"
+echo "	    X	X  X   X  X	X X"
+echo "	    X	X  X   X   XXX	X  X"
+echo "		XXXXX	XXX   XXXX"
+echo "		   XX  X   X  X   X"
+echo "		  XX   XXXXX  XXXX"
+echo "		 XX    X   X  X"
+echo "		XXXXX  X   X  X v2.0"
+echo ""
+echo -n "press ENTER to zap your hacks"
+read
+echo ""
+	sudo locate *backdoor*
+	sudo apt purge netcat nc
+echo ""
+
+arr=("nmap" "hydra-gtk" "ophcrack" "minetest" "kismet" "freeciv" "snmp" "openarena" "gware" "john" "nginx" "johntheripper" "telnet" "netcat" "mariadb" "ftp" "pureftpd" "proftpd" "nc" "cups" "aircrack" "postfix" "bind9" "wireshark" "exim4" "vino")
+for VAR in "${arr[@]}"
+do
+	echo ""
+	echo " $VAR ::"
+	sudo apt-get --purge remove "$VAR"
+done
+
+sudo apt-get autoremove
+
+echo ""
+echo "Your hacks have been zapped!"
+echo "FYI - This does not check for services like apache2"
+echo ""
+echo -n "Press ENTER to exit"
+read

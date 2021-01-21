@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# This script removes all ".mp3" files
+
+error_sign () {
+	echo ""
+	echo -e "			\e[1;31mERROR \e[0;0m"
+	echo ""
+}
+
+# Begining Message
+clear
+echo ""
+echo "		The MP3 Murderer :"
+echo "			: DOWN WITH MP3s!"
+echo ""
+echo -n "press ENTER to terminate all MP3 files..."
+read
+echo ""
+
+# Check of "locate" command exists
+if [ $(which locate) = "/usr/bin/locate" ]
+then
+	# actually destroy MP3 files
+	sudo updatedb
+	sudo locate -0 --regex ".*\.mp3$" | xargs -t0 sudo rm
+else
+	# iff locate is not found... try to resolve
+	error_sign
+	echo "		locate command not found..."
+	echo "		...attempting to resolve..."
+	echo ""
+	echo ""
+	sudo apt install locate
+	echo ""
+	echo "try re-running the command"
+	echo ""
+	exit
+fi
+
+# End Message
+echo ""
+sudo updatedb
+sudo locate -0 --regex ".*\.mp3$" | xargs -t0 sudo rm
+echo ""
+echo "MP3s Terminated!"
+echo -n "Press ENTER to continue"
+read

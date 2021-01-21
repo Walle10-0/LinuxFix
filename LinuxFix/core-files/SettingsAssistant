@@ -1,0 +1,100 @@
+#!/bin/bash
+
+clear
+echo ""
+echo "		SettingsAssistant v0.5"
+echo ""
+echo "		Random cyber security stuff..."
+echo ""
+echo -n "press ENTER to do cyber security stuff"
+read
+
+echo ""
+
+VAR=0
+ANSWER=0
+
+ask_q () {
+	while [ true ]; do
+		echo ""
+		echo "$1"
+		read -rp "	: " VAR
+		case "$VAR" in
+			[Yy]* )
+				echo " ";
+				ANSWER=1;
+				break;;
+			[Nn]* )
+				echo " ";
+				ANSWER=0;
+				break;;
+			*)
+				echo "ERROR";;
+			esac
+	done
+}
+
+
+
+
+# password policies
+ask_q "do you want to configure password policies? (pwquality + login.defs)"
+if [ $ANSWER = 1 ] ; then
+#	pwquality
+	echo "configuring pwquality"
+	cp $PWD/"core-files"/settings/common-auth /etc/pam.d/common-auth
+	echo "	-/etc/pam.d/common-auth"
+	cp $PWD/"core-files"/settings/common-password /etc/pam.d/common-password
+	echo "	-/etc/pam.d/common-password"
+	echo ""
+#	/etc/login.defs
+	echo "configuring /etc/login.defs"
+	cp $PWD/"core-files"/settings/login.defs /etc/login.defs
+else
+	echo "skipping..."
+fi
+
+# sudoers
+ask_q "do you want to configure the sudoers file?"
+if [ $ANSWER = 1 ] ; then
+	echo "configuring /etc/sudoers"
+	cp $PWD/"core-files"/settings/sudoers /etc/sudoers
+else
+	echo "skipping..."
+fi
+
+# Network Configurations
+ask_q "do you want to configure network configurations? (sysctl)"
+if [ $ANSWER = 1 ] ; then
+	echo "configuring /etc/sysctl.conf"
+	echo ""
+	cp $PWD/"core-files"/settings/sysctl.conf /etc/sysctl.conf
+	sysctl -p
+else
+	echo "skipping..."
+fi
+
+
+
+
+# Critical services
+#ask_q "do you want to configure critical services? (Beta version)"
+#if [ $ANSWER = 1 ] ; then
+#	ask_q "Is OpenSSH a critical service and do you want it installed?"
+#	if [ $ANSWER = 1 ] ; then
+#	
+#	else
+#	
+#	fi
+#else
+#	echo "skipping..."
+#fi
+
+
+# end message
+echo ""
+echo "thank you for using SettingAssistant v0.5"
+echo -n "press ENTER to exit"
+read
+echo ""
+

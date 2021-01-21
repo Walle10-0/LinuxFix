@@ -1,0 +1,24 @@
+#!/bin/bash
+
+clear
+echo ""
+echo "		Update Protocall"
+echo ""
+echo -n "Press ENTER to begin updating"
+read
+echo ""
+if [ -d /etc/pacman.d ]
+then
+	sudo pacman -Syu
+fi
+
+if [ -d /etc/apt ]
+then
+	sudo apt update
+	sudo apt upgrade
+fi
+echo ""
+echo "		Updates Complete!"
+echo ""
+echo -n "Press ENTER to continue"
+read

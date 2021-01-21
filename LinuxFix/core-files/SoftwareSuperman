@@ -1,0 +1,107 @@
+#!/bin/bash
+
+#functions
+
+graphic () {
+bash $PWD/"core-files"/Graphics "$1"
+}
+
+purge_ftp () {
+sudo apt purge vsftpd
+sudo apt purge ftp
+sudo apt purge pureftpd
+sudo apt purge proftpd
+}
+
+configur () {
+graphic "$1"
+if [ "$1" = "openssh-server" ]
+then
+	echo ""
+	service ssh start
+	service sshd start
+	echo ""
+	cp $PWD/"core-files"/settings/sshd_config /etc/ssh/sshd_config
+	service ssh restart
+	service sshd restart
+	ufw allow OpenSSH
+
+	echo "	SSH is secure!"
+
+elif [ $1 = "vsftpd" ]
+then
+	echo ""
+	service vsftpd start
+	cp $PWD/"core-files"/settings/vsftpd.conf /etc/vsftpd.conf
+	ufw allow 21
+	service vsftpd reload
+	service vsftpd start
+
+	ufw allow 20:21/tcp
+	ufw allow 30000:31000/tcp
+
+	echo ""
+	echo "	FTP is secure (hopefully.........)"
+
+elif [ $1 = apache2 ]
+then
+	cp $PWD/"core-files"/settings/apache2.conf /etc/apache2/apache2.conf
+
+elif [ $1 = samba ]
+then
+	echo "I don't have anything for samba... sry..."
+else
+	echo "whoops! something went wrong..."
+fi
+	graphic enter
+}
+
+
+graphic Superman
+
+# main instilation script
+arr=("libpam-pwquality" "bum" "ufw" "software-properties-gtk" "coreutils")
+for VAR in "${arr[@]}"
+do
+	echo ""
+	if [ "$VAR" = "coreutils" ]
+	then
+		sudo apt install --reinstall "$VAR"
+	else
+		sudo apt install "$VAR"
+	fi
+done
+
+# critical services (BETA)
+arr=("openssh-server" "samba" "vsftpd" "apache2")
+for VAR in "${arr[@]}"
+do
+	while [ true ]; do
+		echo ""
+		read -rp "do you want $VAR installed? (Y/N)	" VAR2
+		echo ""
+		case "$VAR2" in
+			[Yy]* )
+				sudo apt install $VAR ;
+				echo "";
+				echo "configuring : $VAR";
+				configur "$VAR";
+				break;;
+			[Nn]* )
+				if [ "$VAR" = vsftpd ] ; then
+				purge_ftp
+				else
+				sudo apt purge $VAR
+				fi
+				break;;
+			*)
+				echo "ERROR";;
+		esac
+	done
+done
+
+echo ""
+echo '*superman theme plays in background*'
+echo ""
+echo -n "press ENTER to exit"
+read

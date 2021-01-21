@@ -1,0 +1,140 @@
+#!/bin/bash
+
+# This is a test (DO NOT USE ON NON LINUX!!!!!)
+# Don't forget to enable the script using "chmod +x" or "bash"
+# This script will go through everything and will ask you to confirm things. Don't be afraid to say no to installing malware and say no to deleting critical services
+# You may need to spam enter
+
+#Passwords and Guest account
+
+if [ $(whoami) = root ]
+then
+
+	arr=($(getent passwd {1000..60000} | cut -d: -f1))
+	for VAR in "${arr[@]}"
+	do
+		echo ""
+		echo "$VAR:(g3_WASD[c00k]" | chpasswd
+		echo ; echo "$VAR's password has been changed to (g3_WASD[c00k]"
+		echo ""
+	done
+
+	sudo echo "allow-guest = false" >> /etc/lightdm/lightdm.conf
+
+else
+echo ""
+	echo "you need to sign in as root for to disable the guest account"
+echo ""
+
+# File permissions
+
+	chmod -w /etc
+	arr=($(ls /etc))
+	for VAR in "${arr[@]}"
+	do
+		chmod -w /etc/$VAR
+	done
+	fi
+chmod -rwx /etc/shadow
+read
+
+# Purge Maleware/Hacking tools
+
+arr=("nmap" "hydra-gtk" "ophcrack" "minetest" "apache2" "kismet" "freeciv" "snmp" "openarena" "samba" "gware" "john" "nginx" "johntheripper" "telnet" "netcat" "mariadb" "vsftpd" "ftp" "pureftpd" "proftpd" "nc" "cups" "aircrack" "postfix" "bind9" "wireshark")
+for VAR in "${arr[@]}"
+do
+	echo ""
+	sudo apt-get --purge remove "$VAR"
+done
+
+sudo apt-get autoremove
+
+echo ""
+echo "Your hacks have been zapped!"
+echo ""
+read
+
+# Install critical software
+
+arr=("libpam-pwquality" "openssh-server" "samba" "vsftp" "bum" "ufw" "coreutils")
+for VAR in "${arr[@]}"
+do
+	echo ""
+	if [ "$VAR" = "coreutils" ]
+	then
+		sudo apt install --reinstall "$VAR"
+	else
+		sudo apt install "$VAR"
+	fi
+done
+echo ""
+echo '*insert cool line here*'
+echo ""
+read
+
+# Remove .mp3 files
+
+echo ""
+sudo updatedb
+sudo locate -0 --regex ".*\.mp3$" | xargs -t0 sudo rm
+echo ""
+
+sudo locate *backdoor*
+sudo apt purge netcat nc
+
+# Update
+
+if [ -d /etc/pacman.d ]
+then
+	sudo pacman -Syu
+fi
+
+if [ -d /etc/apt ]
+then
+	sudo apt update
+	sudo apt upgrade
+fi
+echo " "
+
+# Firewall/other
+
+echo " "
+sudo apt install ufw
+echo " "
+sudo ufw reset
+echo " "
+sudo ufw enable
+echo " "
+
+if [ $(whoami) != root ]
+then
+	echo "you need to sign in as root for to disable the guest account"
+else
+	echo "IMPORTANT! all passwords have been changed to (g3_WASD[c00k]"
+fi
+read
+
+# View user's files
+
+arr=($(ls /home))
+for VAR in "${arr[@]}"
+do
+	ls /home/$VAR
+	read
+	arr2=($(ls /home/$VAR))
+	for VAR2 in "${arr2[@]}"
+	do
+		ls /home/$VAR/$VAR2
+		read
+	done
+done
+
+echo "all folders viewed =) I hope you took notes"
+read
+
+echo " "
+echo "Thanks for using LinuxFix v0.0! The program that Fixes your Linux!"
+echo " "
+echo "note : This script installed services, deleted bad stuff, removed .mp3 files (hopefully), updated the computer, changed passwords, disabled the guest account (hopefully), and reset/set the firewall"
+echo " "
+read

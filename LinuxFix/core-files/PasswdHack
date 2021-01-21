@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# This mini-script is to change Passwords for all users and disable the Guest account
+
+error_sign () {
+	echo ""
+	echo -e "			\e[1;31mERROR \e[0;0m"
+	echo ""
+}
+
+clear
+
+# Check if root
+if [ $(whoami) != "root" ]
+then
+	error_sign
+	echo "	Please sign in as root to use this."
+	echo ""
+	exit
+fi
+
+# Begining Message
+echo ""
+echo "			PasswdHack v2.0"
+echo ""
+echo "		Change Everybody's Passwords"
+echo "		without permission!	;D"
+echo ""
+echo -ne "Press \e[1;31mENTER\e[0;0m to start changing passwords >:D"
+read
+
+# Password changing
+if [ $(which chpasswd) = "/usr/sbin/chpasswd" ]
+then
+
+	# This is the main password changing script
+	arr=($(getent passwd {1000..60000} | cut -d: -f1))
+	for VAR in "${arr[@]}"
+	do
+		echo ""
+		echo "$VAR:(g3_WASD[c00k]" | chpasswd
+		echo "$VAR's password has been changed to (g3_WASD[c00k]"
+		echo ""
+	done
+else
+
+	# Iff chpasswd is not in the right directory or doesn't exist, it will give this error message
+	error_sign
+	echo "	chpasswd is not installed or not working"
+	echo ""
+	exit
+fi
+
+
+# Disable Guest Account
+if [ $(basename $(lsb_release -a 2> /dev/null | sed -n 's/.*ID://p')) = Ubuntu ]
+then
+	echo "	...disabling guest account..."
+	sudo echo "allow-guest = false" >> /etc/lightdm/lightdm.conf
+fi
+
+# End Message
+echo ""
+echo " "
+echo -e "\e[1;31mIMPORTANT!\e[0;0m all passwords have been changed to (g3_WASD[c00k]"
+echo ""
+echo -ne "Press \e[1;31mENTER\e[0;0m to continue"
+read
