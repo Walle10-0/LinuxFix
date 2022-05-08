@@ -11,7 +11,7 @@ echo -n "Press ENTER to begin"
 read
 
 echo ""
-if [ $(which firefox) = "/usr/bin/firefox" ]
+if [ ! -x "$(command -v locate)" ]
 then
 	sudo apt-get install firefox
 	echo ""
@@ -22,11 +22,11 @@ then
 arr=($(ls /home))
 for VAR in "${arr[@]}"
 do
-cp "$PWD"/"core-files"/settings/prefs.js /home/"$VAR"/.mozilla/firefox/*default-esr/prefs.js
+	cp "$PWD"/"core-files"/settings/prefs.js /home/"$VAR"/.mozilla/firefox/*default-esr/prefs.js
 done
 fi
 echo ""
-echo "		Firefox is fixed..."
+echo "		Firefox is fixed... (hopefully)"
 echo ""
 echo -n "Now press ENTER to go back to your pathetic lives!"
 read

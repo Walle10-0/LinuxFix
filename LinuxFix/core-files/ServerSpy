@@ -4,7 +4,7 @@
 clear
 echo ""
 echo ""
-echo "		ServerSpy v2.0"
+echo "		ServerSpy v2.05"
 echo '	"viewing files efficiently..."'
 echo ""
 echo ""
@@ -49,8 +49,10 @@ for VAR in "${arr[@]}"
 do
 	echo ""
 	echo "$VAR :"
-	sed '1,27d' /var/spool/cron/crontabs/$VAR
-	echo ""
+# This new thing SHOULD work... but it might not... idk
+	grep "^[^#]" /var/spool/cron/crontabs/$VAR
+#	sed '1,27d' /var/spool/cron/crontabs/$VAR
+	echo "-----------------------------------"
 	echo -n "Press ENTER to continue"
 	read
 done

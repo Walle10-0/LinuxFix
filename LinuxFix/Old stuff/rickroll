@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# troll with fake screen (clears terminal but only works with root)
+clear; echo -n "root@$HOSTNAME:$PWD# "; read; sleep infinity
+
+# fake screen + rickroll
+echo -n "root@$HOSTNAME:$PWD# "; read; aplay -q $(find /home/ -name "sound.wav") 2> /dev/null ; sleep infinity

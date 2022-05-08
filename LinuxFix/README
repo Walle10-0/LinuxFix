@@ -1,5 +1,6 @@
 
 Welcome to LinuxFix!
+(This README may be slightly out of date in some areas as it has not been updated in a while. However, for the moment I'm going to assume you know what LinuxFix does and don't need this)
 
 A collection of mini-script that run system admin tasks and help harden the computer. Please note that all of these script might cause unforseen problems if run on a host computer. Also, not all of these scripts work reliably as others. In other words, this is all a beta. Therefore, you might have to "fix" the scripts. This text file serves as a description of all the parts of LinuxFix, what they do, and how reliable they are.
 

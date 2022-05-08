@@ -52,7 +52,7 @@ echo "	                X       X    X  X                    "
 echo "	                X      XXX  X    X   v2.0            "
 echo "	          The Program that Fixes Your Linux          "
 echo "	                                                     "
-echo -ne "\e[0:0m"
+echo -ne "\e[0;0m"
 press_enter
 
 #Operation SSH
@@ -91,10 +91,10 @@ echo "	 X       X   X XXXXX  X     XXXXX   X X X X XXXXX X X   X       "
 echo "	 XXXXXX  X   X X      XXXXX X X     X  X  X X   X X  X  X       "
 echo "	      X  X   X X      X     X  X    X     X X   X X   X X       "
 echo "	      X  X   X X      X     X   X   X     X X   X X    XX       "
-echo "	 XXXXXX  XXXXX X      XXXXX X    X  X     X X   X X     X v2.0  "
+echo "	 XXXXXX  XXXXX X      XXXXX X    X  X     X X   X X     X v2.5  "
 echo "	faster than a speeding bullet... more powerful than a locomotive"
 echo "	                                                                "
-echo -ne "\e[0:0m"
+echo -ne "\e[0;0m"
 press_enter
 
 # loading icon
@@ -108,7 +108,7 @@ echo -e "\e[7m\e[5m"
 echo "		                "
 echo "		   loading...   "
 echo "		                "
-echo -e "\e[0:0m"
+echo -e "\e[0;0m"
 echo ""
 echo ""
 

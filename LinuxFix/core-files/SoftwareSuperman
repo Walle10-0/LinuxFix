@@ -1,9 +1,59 @@
 #!/bin/bash
 
-#functions
+# ------------------------ functions -------------------
 
 graphic () {
 bash $PWD/"core-files"/Graphics "$1"
+}
+
+answer=0
+ask_q () {
+counter=1
+while [ true ]; do
+	read -rp "$1 (y/n)" answer
+	echo ""
+	case "$answer" in
+		[Yy]*)
+			answer=1
+			break;;
+		[Nn]*)
+			answer=0
+			break;;
+		*)
+			if [ $counter -gt 3 ];then
+			echo -e "you're doing this deliberately now... please stop...\n"
+			else
+			echo -e "please answer yes or no\n"
+			let counter++
+			fi
+	esac
+done
+}
+
+# paste_config command with fields 1=humanName 2=fileName 3=filePath 4=skipQuestion
+paste_config () {
+if [ -f "$3" ]; then
+	if [ "$4" = "skip" ]; then
+		answer=1
+	else
+	ask_q "do you want to configure $1? ($3)"
+	fi
+	if [ $answer = 1 ]; then
+		echo "Here are the differences : >NEW <OLD"
+		diff "$3" "$PWD/core-files/settings/$2"
+		echo "---------------------------"
+		ask_q "do you want to continue? (y/n)"
+		if [ $answer = 1 ] ; then
+			echo "configuring $3"
+			cp "$3" "/backup/other/$2"
+			cp "$PWD/core-files/settings/$2" "$3"
+		fi
+	else
+		echo "skipping..."
+	fi
+else
+	echo "$3 does not exist so that's not my problem"
+fi
 }
 
 purge_ftp () {
@@ -21,7 +71,7 @@ then
 	service ssh start
 	service sshd start
 	echo ""
-	cp $PWD/"core-files"/settings/sshd_config /etc/ssh/sshd_config
+	paste_config "ssh" "sshd_config" "/etc/ssh/sshd_config"
 	service ssh restart
 	service sshd restart
 	ufw allow OpenSSH
@@ -32,7 +82,7 @@ elif [ $1 = "vsftpd" ]
 then
 	echo ""
 	service vsftpd start
-	cp $PWD/"core-files"/settings/vsftpd.conf /etc/vsftpd.conf
+	paste_config "ftp" "vsftpd.conf" "etc/vsftpd.conf"
 	ufw allow 21
 	service vsftpd reload
 	service vsftpd start
@@ -45,7 +95,7 @@ then
 
 elif [ $1 = apache2 ]
 then
-	cp $PWD/"core-files"/settings/apache2.conf /etc/apache2/apache2.conf
+	paste_config "apache2" "apache2.conf" "/etc/apache2/apache2.conf"
 
 elif [ $1 = samba ]
 then
@@ -56,10 +106,18 @@ fi
 	graphic enter
 }
 
+# ------------------------------ intro ------------------------
 
 graphic Superman
 
-# main instilation script
+if [ ! -d "/backup/other" ]; then
+	if [ ! -d "/backup" ]; then
+		mkdir "/backup"
+	fi
+	mkdir "/backup/other"
+fi
+
+# ------------------- main instilation script---------------------------------
 arr=("libpam-pwquality" "bum" "ufw" "software-properties-gtk" "coreutils")
 for VAR in "${arr[@]}"
 do
@@ -72,34 +130,37 @@ do
 	fi
 done
 
-# critical services (BETA)
-arr=("openssh-server" "samba" "vsftpd" "apache2")
-for VAR in "${arr[@]}"
-do
-	while [ true ]; do
+# ------------------ critical services (BETA) --------------------------
+echo ""
+ask_q "do you want to configure critical services? (Beta)"
+if [ $answer = 1 ]; then
+	arr=("openssh-server" "samba" "vsftpd" "apache2")
+	for VAR in "${arr[@]}"
+	do
 		echo ""
-		read -rp "do you want $VAR installed? (Y/N)	" VAR2
-		echo ""
-		case "$VAR2" in
-			[Yy]* )
-				sudo apt install $VAR ;
-				echo "";
-				echo "configuring : $VAR";
-				configur "$VAR";
-				break;;
-			[Nn]* )
-				if [ "$VAR" = vsftpd ] ; then
+		ask_q "do you want $VAR installed?"
+		if [ $answer = 1 ]; then
+			sudo apt install $VAR
+			echo ""
+			echo "configuring : $VAR"
+			configur "$VAR"
+		elif [ $answer = 0 ]; then
+			if [ "$VAR" = vsftpd ] ; then
 				purge_ftp
-				else
+				echo ""
+				echo "FTP is sneaky."
+				echo "This did NOT purge all types of ftp."
+				echo "Please run the FTP nuke in 'HackZap'"
+				echo ""
+				echo -n "press ENTER to continue"; read
+			else
 				sudo apt purge $VAR
-				fi
-				break;;
-			*)
-				echo "ERROR";;
-		esac
+			fi
+		fi
 	done
-done
-
+else
+	echo "	skipping..."
+fi
 echo ""
 echo '*superman theme plays in background*'
 echo ""

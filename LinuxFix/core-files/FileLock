@@ -8,21 +8,26 @@ echo "	X     X  X    X	     X	  X  X X    X X"
 echo "	XXXX  X  X    XXXX   X    X  X X    XX"
 echo "	X     X  X    X	     X    X  X X    X X"
 echo "	X    XXX XXXX XXXX   XXXX XXXX XXXX X  X"
-echo "  V2.0"
+echo "  V2.3"
 echo ""
 echo -n "Press ENTER to protect your core files"
 read
+# this commented part doesn't do anything
+# echo ""
+# echo "potentially dangerous files :"
+# find / -perm -4000 -print
+# echo ""
+# echo -n "Press ENTER to continue"
+# read
 echo ""
-echo "potentially dangerous files :"
-find / -perm -4000 -print
-echo ""
-echo -n "Press ENTER to continue"
-read
-echo ""
-arr=("600 /boot/grub/menu.lst" "400 /etc/cron.allow" "400 /etc/cron.deny" "644 /etc/crontab" "644 /etc/hosts.allow" "644 /etc/hosts.deny" "644 /etc/logrotate.conf" "755 /etc/pam.d" "644 /etc/passwd" "755 /etc/rc.d" "600 /etc/securetty" "755 /etc/security" "400 /etc/shadow" "400 /etc/shutdown.allow" "755 /etc/ssh" "755 /etc/sysconfig" "644 /etc/sysctl.conf" "644 /etc/syslog.conf" "644 /etc/udev/udev.conf" "600 /etc/vsftpd" "600 /etc/vsftp.ftpusers" "644 /etc/xinetd.conf" "755 /etc/xinetd.d" "755 /var/log" "644 /var/log/lastlog" "644 /var/log/messages" "664 /var/log/wtmp" "644 /etc/group" "0440 /etc/sudoers" "0440 /etc/sudoers.d")
+arr=("600 /boot/grub/menu.lst" "400 /etc/cron.allow" "400 /etc/cron.deny" "644 /etc/crontab" "644 /etc/hosts.allow" "644 /etc/hosts.deny" "644 /etc/logrotate.conf" "755 /etc/pam.d" "644 /etc/passwd" "755 /etc/rc.d" "600 /etc/securetty" "755 /etc/security" "400 /etc/shadow" "400 /etc/shutdown.allow" "755 /etc/ssh" "755 /etc/sysconfig" "644 /etc/sysctl.conf" "644 /etc/syslog.conf" "644 /etc/udev/udev.conf" "600 /etc/vsftpd" "600 /etc/vsftp.ftpusers" "644 /etc/xinetd.conf" "755 /etc/xinetd.d" "755 /var/log" "644 /var/log/lastlog" "644 /var/log/messages" "664 /var/log/wtmp" "644 /etc/group" "440 /etc/sudoers" "750 /etc/sudoers.d")
+# it was previosly settings sudoers.d to 440 but that was causing errors... hopefully 750 is ok permissions
 for VAR in "${arr[@]}"
 do
-	chmod $VAR
+	target=$(echo "$VAR" | cut -d ' ' -f 2-)
+	if [ -e "$target" ]; then
+		chmod $VAR
+	fi
 done
 echo ""
 echo "	core files are secure"

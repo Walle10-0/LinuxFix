@@ -5,20 +5,21 @@
 # This script will go through everything and will ask you to confirm things. Don't be afraid to say no to installing malware and say no to deleting critical services
 # You may need to spam enter
 
-$PWD/"core-files"/Graphics load
+# $PWD/"core-files"/Graphics load
 
 if [ $(whoami) = root ]
 then
 	if [ $(basename "$PWD") = LinuxFix ]
 	then
-		$PWD/"core-files"/Graphics intro
-		$PWD/"core-files"/LinuxFixCore
-		
+		chmod +x $PWD/"core-files"/*
+		bash $PWD/"core-files"/Graphics intro
+		bash $PWD/"core-files"/LinuxFixCore
 		clear
 		echo " "
-		echo "Thanks for using LinuxFix v1.0! The program that Fixes your Linux!"
+		echo "Thanks for using LinuxFix v2.0! The program that Fixes your Linux!"
 		echo " "
-		echo "note : This script installed services, deleted bad stuff, removed .mp3 files, updated the computer, changed passwords, disabled the guest account (hopefully), and reset/set the firewall"
+		echo "it did a lot off stuff that I don't care to mention"
+#		echo "note : This script installed services, deleted bad stuff, removed .mp3 files, updated the computer, changed passwords, disabled the guest account (hopefully), and reset/set the firewall"
 		echo " "
 		echo -ne "press \e[0;31mENTER \e[0;0mto exit"
 		read

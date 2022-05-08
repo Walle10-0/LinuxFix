@@ -1,50 +1,88 @@
 #!/bin/bash
 
-# 2020 Update : I think I've fixed it, but I'm not sure, run at your own risk.
+# this script litterally just runs other scripts so it should work
+
+answer=0
+ask_q () {
+counter=1
+while [ true ]; do
+	echo ""
+	read -rp "$1 (y/n)" answer
+	echo ""
+	case "$answer" in
+		[Yy]*)
+			answer=1
+			break;;
+		[Nn]*)
+			answer=0
+			break;;
+		*)
+			if [ $counter -gt 3 ];then
+			echo -e "you're doing this deliberately now... please stop...\n"
+			else
+			echo -e "please answer yes or no\n"
+			let counter++
+			fi
+	esac
+done
+}
 
 
 # Core script : This script has which scripts get run and which order
 
-
 # Change passwords
-$PWD/"core-files"/PasswdHack
+bash $PWD/"core-files"/PasswdHack
+
+# User auditing
+ask_q "would you like LinuxFix to attempt audit users? (reccomended + beta + configuration needed)"
+if [ "$answer" = "1" ]; then
+	bash $PWD/"core-files"/AutoUsers
+fi
 
 # Purge Maleware/Hacking tools
-$PWD/"core-files"/HackZap
-
-# Install critical software
-$PWD/"core-files"/SoftwareSuperman
-
-# Remove .mp3 files
-$PWD/"core-files"/"MP3_Murderer"
+bash $PWD/"core-files"/HackZap
 
 # Update
-$PWD/"core-files"/UpdateProtocall
+ask_q "would you like LinuxFix to attempt to preform updates? (not reccomended)"
+if [ "$answer" = "1" ] ; then
+	bash $PWD/"core-files"/UpdateProtocall
+fi
+
+# Install critical software
+bash $PWD/"core-files"/SoftwareSuperman
 
 # Settings
-$PWD/"core-files"/SettingsAssistant
+bash $PWD/"core-files"/SettingsAssistant
 
 # File permissions
-$PWD/"core-files"/FileLock
+bash $PWD/"core-files"/FileLock
 
 # Firewall
-$PWD/"core-files"/FirewallForger
+ask_q "would you like LinuxFix to attempt to configure the firewall? (reccomended only if you like Trump)"
+if [ "$answer" = "1" ]; then
+	bash $PWD/"core-files"/FirewallForger
+fi
 
 # Firefox(Debian Only)
 if [ $(basename $(lsb_release -a 2> /dev/null | sed -n 's/.*ID://p')) = Debian ]
 then
-$PWD/"core-files"/FirefoxFix
+	ask_q "would you like Linux Fix to attempt to configure firefox? (not reccomended)"
+	if [ "$answer" = "1" ]; then
+		bash $PWD/"core-files"/FirefoxFix
+	fi
 fi
 
 
 # Friendly Reminder
 clear
 echo " "
-echo "IMPORTANT! all passwords have been changed to (g3_WASD[c00k]"
+echo "IMPORTANT! all passwords have been changed. Please write them down"
 echo ""
 echo -n "Press ENTER to continue"
 read
 
 # View user's files
-$PWD/"core-files"/ServerSpy
+bash $PWD/"core-files"/ServerSpy
 
+# Remove .mp3 files
+bash $PWD/"core-files"/"MP3_Murderer"

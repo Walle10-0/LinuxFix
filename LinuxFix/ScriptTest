@@ -1,4 +1,9 @@
 #!/bin/bash
 
-clear
+#lol there is nothing here
 
+echo "hello world"
+
+# checks for OS
+#if [ $(basename $(lsb_release -a 2> /dev/null | sed -n 's/.*ID://p')) = Ubuntu ]; then
+# might be useful later
