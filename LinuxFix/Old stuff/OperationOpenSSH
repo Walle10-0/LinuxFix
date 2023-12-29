@@ -1,0 +1,16 @@
+#!/bin/bash
+
+$PWD/"core-files"/Graphics SSH
+
+echo ""
+service ssh start
+service sshd start
+echo ""
+cp $PWD/"core files"/settings/sshd_config /etc/ssh/sshd_config
+service ssh restart
+service sshd restart
+ufw allow OpenSSH
+
+echo "	SSH is secure!"
+echo -n "press ENTER to continue"
+read

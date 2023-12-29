@@ -1,0 +1,146 @@
+#!/bin/bash
+
+#This command renders graphics for LinuxFix
+
+#define common functions
+error_sign () {
+	echo ""
+	echo ""
+	echo -ne "			\e[1;31mERROR \e[0;0m"
+	echo ""
+	echo ""
+}
+press_enter () {
+echo ""
+echo -ne "press \e[5;31mENTER \e[0;0mto begin"
+read
+}
+
+#actual script
+#check if there is an argument
+if [ -z "$1" ]
+then
+	error_sign
+	echo "		argument not defined"
+	echo ""
+
+elif [ "$1" = enter ]
+then
+echo ""
+echo -ne "press \e[5;31mENTER \e[0;0mto continue"
+read
+
+#LinuxFix intro
+elif [ "$1" = intro ]
+then
+
+clear
+echo ""
+echo -e "\e[1m\e[103m\e[30m	                                                     "
+echo "	          X      XXX  XX   X  X   X  X    X          "
+echo "	          X       X   X X  X  X   X   X  X           "
+echo "	          X       X   X X  X  X   X    XX            "
+echo "	          X       X   X  X X  X   X    XX            "
+echo "	          X       X   X  X X  X   X   X  X           "
+echo "	          XXXXX  XXX  X   XX  XXXXX  X    X          "
+echo "	                                                     "
+echo "	                XXXXX  XXX  X    X                   "
+echo "	                X       X    X  X                    "
+echo "	                XXXXX   X     XX                     "
+echo "	                X       X     XX                     "
+echo "	                X       X    X  X                    "
+echo "	                X      XXX  X    X   v2.0            "
+echo "	          The Program that Fixes Your Linux          "
+echo "	                                                     "
+echo -ne "\e[0;0m"
+press_enter
+
+#Operation SSH
+elif [ "$1" = "openssh-server" ]
+then
+
+clear
+echo ""
+echo "		 _______    _______    _    _"
+echo "		|  _____|  |  _____|  | |  | |"
+echo "		| |_____   | |_____   | |__| |"
+echo "		|_____  |  |_____  |  |  __  |"
+echo "		 _____| |   _____| |  | |  | |"
+echo "		|_______|  |_______|  |_|  |_|"
+echo ""
+echo "configuration"
+press_enter
+
+#SuperMan
+elif [ "$1" = Superman ]
+then
+
+clear
+echo -e "\e[1m\e[43m\e[31m	                                                                "
+echo "	 XXXXXX  XXXXXX XXXXXX XXXXX X   X   X   XXX   XXXXX   XXXXX    "
+echo "	 X       X    X X        X   X   X   X  X   X  X    X  X        "
+echo "	 X       X    X XXXXXX   X   X   X   X  XXXXX  XXXXX   X        "
+echo "	 XXXXXX  X    X X        X    X  X  X   X   X  X X     XXXXX    "
+echo "	      X  X    X X        X    X X X X   X   X  X  X    X        "
+echo "	      X  X    X X        X     X   X    X   X  X   X   X        "
+echo "	 XXXXXX  XXXXXX X        X     X   X    X   X  X    X  XXXXX    "
+echo "	                                                                "
+echo "	 XXXXXX  X   X XXXXX  XXXXX XXXXX   X     X  XXX  X     X       "
+echo "	 X       X   X X    X X     X    X  XX   XX X   X XX    X       "
+echo "	 X       X   X XXXXX  X     XXXXX   X X X X XXXXX X X   X       "
+echo "	 XXXXXX  X   X X      XXXXX X X     X  X  X X   X X  X  X       "
+echo "	      X  X   X X      X     X  X    X     X X   X X   X X       "
+echo "	      X  X   X X      X     X   X   X     X X   X X    XX       "
+echo "	 XXXXXX  XXXXX X      XXXXX X    X  X     X X   X X     X v2.5  "
+echo "	faster than a speeding bullet... more powerful than a locomotive"
+echo "	                                                                "
+echo -ne "\e[0;0m"
+press_enter
+
+# loading icon
+elif [ "$1" = load ]
+then
+
+clear
+echo ""
+echo ""
+echo -e "\e[7m\e[5m"
+echo "		                "
+echo "		   loading...   "
+echo "		                "
+echo -e "\e[0;0m"
+echo ""
+echo ""
+
+elif [ "$1" = apache2 ]
+then
+clear
+echo ""
+echo "	 XXX  XXXX   XXX  XXXX X   X EEEEE "
+echo "	X   X X   X X   X X    X   X E     EEEE"
+echo "	XXXXX XXXX  XXXXX X    XXXXX EEEEE E    eee"
+echo "	X   X X     X   X X    X   X E     EEEE eee eee"
+echo "	X   X X     X   X X    X   X E     E    e   e e EE "
+echo "	X   X X     X   X XXXX X   X EEEEE EEEE eee eee EE EEEeee..."
+echo ""
+echo -n "you know the drill... press ENTER"
+read
+
+elif [ "$1" = vsftd ]
+then
+clear
+echo "		 _____	 _______   _____"
+echo "		|  ___| |__   __| |  _  |"
+echo "		| |___	   | |	  | |_| |"
+echo "		|  ___|	   | |	  |  ___|"
+echo "		| |	   | |	  | |"
+echo "		|_|	   |_|	  |_|"
+echo ""
+echo "configuration"
+press_enter
+
+else
+
+echo ""
+
+fi

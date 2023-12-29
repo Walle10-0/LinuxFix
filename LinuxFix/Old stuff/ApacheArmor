@@ -1,0 +1,19 @@
+#!/bin/bash
+
+clear
+echo ""
+echo "	 XXX  XXXX   XXX  XXXX X   X EEEEE "
+echo "	X   X X   X X   X X    X   X E     EEEE"
+echo "	XXXXX XXXX  XXXXX X    XXXXX EEEEE E    eee"
+echo "	X   X X     X   X X    X   X E     EEEE eee eee"
+echo "	X   X X     X   X X    X   X E     E    e   e e EE "
+echo "	X   X X     X   X XXXX X   X EEEEE EEEE eee eee EE EEEeee..."
+echo ""
+echo -n "you know the drill... press ENTER"
+read
+
+cp $PWD/"core files"/settings/apache2.conf /etc/apache2/apache2.conf
+
+echo ""
+echo -n "PRESS ENTER!!!!!!"
+read

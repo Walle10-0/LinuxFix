@@ -1,0 +1,27 @@
+#!/bin/bash
+
+clear
+echo "		 _____	 _______   _____"
+echo "		|  ___| |__   __| |  _  |"
+echo "		| |___	   | |	  | |_| |"
+echo "		|  ___|	   | |	  |  ___|"
+echo "		| |	   | |	  | |"
+echo "		|_|	   |_|	  |_|"
+echo ""
+echo -n "press ENTER to begin"
+read
+
+echo ""
+service vsftpd start
+cp $PWD/"core files"/settings/vsftpd.conf /etc/vsftpd.conf
+ufw allow 21
+service vsftpd reload
+service vsftpd start
+
+ufw allow 20:21/tcp
+ufw allow 30000:31000/tcp
+
+echo ""
+echo "	FTP is secure (hopefully.........)"
+echo -n "Press ENTER"
+read
