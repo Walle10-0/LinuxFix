@@ -8,6 +8,8 @@ error_sign () {
 	echo ""
 	echo -e "			\e[1;31mERROR \e[0;0m"
 	echo ""
+	echo "	$1"
+	echo ""
 }
 
 clear
@@ -47,9 +49,7 @@ ask_q () {
 # ------------------- check if root --------------------------------------
 if [ $(whoami) != "root" ]
 then
-	error_sign
-	echo "	Please sign in as root to use this."
-	echo ""
+	error_sign "Please sign in as root to use this."
 	exit
 fi
 
@@ -99,9 +99,7 @@ then
 else
 # ----------------------- subscript ------------------------------
 	# Iff chpasswd is not in the right directory or doesn't exist, it will give this error message
-	error_sign
-	echo "	chpasswd is not installed or not working"
-	echo ""
+	error_sign "chpasswd is not installed or not working"
 	ask_q "Would you like to try an alternate method?"
 
 	# Now it will actually do the action
@@ -135,9 +133,7 @@ echo ""
 if [ -d "/etc/lightdm" ]; then
 	echo "lightdm installed - configuring"
 	if [ ! -f "/etc/lightdm/lightdm.conf" ]; then
-		error_sign
-		echo "	lightdm configuration file not found"
-		echo ""
+		error_sign "lightdm configuration file not found"
 		ask_q "Would you like to create a new configuration file?"
 		if [ $answer = "0" ]; then
 			echo -e "skipping lightdm...\n"

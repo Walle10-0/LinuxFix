@@ -61,7 +61,7 @@ clear
 echo ""
 echo "		SettingsAssistant v1.5"
 echo ""
-echo "		Random cyber security stuff..."
+echo "		Random cyber security settings..."
 echo ""
 echo -n "press ENTER to do cyber security stuff"; read
 echo ""

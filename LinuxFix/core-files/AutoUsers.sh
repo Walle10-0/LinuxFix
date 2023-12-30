@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# this is a beta test for user managment
-# be sure to ADD authorized users and admins IN THE CODE right HERE
+# this script does automatic user management
+# be sure to ADD authorized users and admins in Admins.config and Users.config
+# if you lock yourself out of your system, that's not my fault
 
-authAdmins=("zagreus" "hades" "nyx" "persephone")
-authUsers=("hypnos" "thanatos" "megaera" "eurydice" "orpheus" "sisyphus" "charon" "achilles" "dusa" "broker" "skelly" "chaos")
+# ----------- variables ------------------
+defaultUsers="$(dirname $0)/Users.config"
+defaultAdmins="$(dirname $0)/Admins.config"
 answer=0
 
-# don't add admins in the authUsers. I'll automatically combine the lists
-
-# function stuff
+# ------------ function stuff ----------------
 questionYN () {
+counter=0
 while [ true ]; do
 	read -rp "answer (y/n)" answer
 	echo ""
@@ -33,23 +34,78 @@ done
 export answer
 }
 
-# main script
+# 1=message 2=defaultValue
+askForFile () {
+	echo "Please enter the name of the file $1"
+	if [ -f "$2" ]; then
+		echo "Leave it blank if you would like to use the default $2"
+	else
+		echo "$2 is missing or not found! The default option will fail."
+	fi
+	echo ""
+	read -rp "File Name : " answer
+	echo ""
+	
+	if [ ! $answer ]; then
+		answer=$2
+	fi
+	
+	if [ ! -f "$answer" ]; then
+		error_sign "The file $answer is missing!"
+	fi
+}
+
+# creates an ERROR sign
+error_sign () {
+	echo ""
+	echo -e "			\e[1;31mERROR \e[0;0m"
+	echo ""
+	echo "	$1"
+	echo ""
+	exit
+}
+
+# check for root
+if [ $(whoami) != "root" ]
+then
+	error_sign "Please sign in as root to use this."
+fi
+
+# ------------------- intro ----------------------------
+clear
 echo ""
-echo "This script is a test version of user management"
-echo "run at your own risk"
+echo "			AutoUsers v2.0"
 echo ""
-echo "NOTE : This script requires going INTO THE CODE and adding an array of admins and standard users. Not doing this could LOCK YOU OUT OF THE SYSTEM. You also need to log in as root. Have you done this?"
+echo "		fixing all your user problems"
+echo ""
+echo -ne "Press \e[1;31mENTER\e[0;0m to start"; read
+echo ""
+echo "This script will automatically add and delete users"
+echo "It requires that you create 2 lists, one of authorized users and another of authorized admins"
+echo "Not doing this or incorrectly configuring the list could LOCK YOU OUT OF THE SYSTEM."
+echo "Run at your own risk."
+echo ""
+echo "Would you like to continue?"
 questionYN
 
 if [ $answer = 0 ]; then
-	echo "go do that right now and come back later"
+	echo "ok bye"
 	echo ""
 	exit
 fi
 
-echo "say a prayer that this works"
-echo ""
+# ----------------- ask for files + more checks -----------------
+askForFile "that lists all the authorized admins" $defaultAdmins
+IFS=$'\n' read -rd '' -a authAdmins <<< $(grep -o '^[^#]*' $answer)
 
+if [ ! ${authAdmins[@]} ]; then
+	error_sign "List of authorized admins is empty. Please add at least 1 admin."
+fi
+
+askForFile "that lists all the authorized users" $defaultUsers
+IFS=$'\n' read -rd '' -a authUsers <<< $(grep -o '^[^#]*' $answer)
+
+# ---------------- user auditing  ---------------------
 allUsers=("${authAdmins[@]}" "${authUsers[@]}")
 arr=($(getent passwd {1000..60000} | cut -d: -f1))
 
@@ -66,11 +122,13 @@ for VAR in "${allUsers[@]}"
 	do
 		if [[ ! " ${arr[*]} " =~ " $VAR " ]]; then
 			adduser $VAR
-# this commented line will automatically add users
-# echo -e "password\npassword\ntest1\ntest2\ntest3\ntest4\ntest5\nY\n" | adduser fish3 ; echo -e "\n\n"
+			# this commented line will automatically add users (no user prompts)
+			# echo -e "password\npassword\ntest1\ntest2\ntest3\ntest4\ntest5\nY\n" | adduser fish3 ; echo -e "\n\n"
+			arr+=("$VAR")
 		fi
 	done
 
+# fetch admins
 VAR=$(getent group sudo | cut -d: -f4)
 arr=($(echo $VAR | tr ',' "\n"))
 
@@ -87,5 +145,11 @@ for VAR in "${authAdmins[@]}"
 	do
 		if [[ ! " ${arr[*]} " =~ " $VAR " ]]; then
 			adduser $VAR sudo
+			arr+=("$VAR")
 		fi
 	done
+
+echo ""
+echo "Users and admins have been updated to match list"
+echo ""
+echo -ne "Press \e[1;31mENTER\e[0;0m to exit"; read

@@ -61,7 +61,7 @@ clear
 echo ""
 echo -e "			Instal\e[1;36mLIST\e[0;0mtion v1.0"
 echo ""
-echo "		makin' life simpler"
+echo -e "		instal\e[1;36mLIST\e[0;0m your installation with this list"
 echo ""
 echo -ne "Press \e[1;31mENTER\e[0;0m to start"; read
 echo ""

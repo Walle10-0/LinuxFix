@@ -8,9 +8,9 @@ clear
 echo ""
 echo "			BulkUninstall v1.0"
 echo ""
-echo "		literally just uninstall everything"
+echo "		for when you need a hulk to uninstall that bulk"
 echo ""
-echo -ne "Press \e[1;31mENTER\e[0;0m to start"; read
+echo -ne "Press \e[1;31mENTER\e[0;0m to literally uninstall everything"; read
 echo ""
 
 # --------- ask for file -----------
