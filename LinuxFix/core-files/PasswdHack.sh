@@ -14,35 +14,35 @@ clear
 
 # generates a password
 genPass () {
-if [ $passType = "/random" ]; then
-	newPass=$(apg -a 0 -n 1 -m 4 -x 8)$(apg -a 1 -n 1 -m 2 -x 4)
-	export newPass
-fi
+	if [ $passType = "/random" ]; then
+		newPass=$(apg -a 0 -n 1 -m 4 -x 8)$(apg -a 1 -n 1 -m 2 -x 4)
+		export newPass
+	fi
 }
 
 # asks a question
 answer=0
 ask_q () {
-counter=1
-while [ true ]; do
-	read -rp "$1 (y/n)" answer
-	echo ""
-	case "$answer" in
-		[Yy]*)
-			answer=1
-			break;;
-		[Nn]*)
-			answer=0
-			break;;
-		*)
-			if [ $counter -gt 3 ];then
-			echo -e "you're doing this deliberately now... please stop...\n"
-			else
-			echo -e "please answer yes or no\n"
-			let counter++
-			fi
-	esac
-done
+	counter=1
+	while [ true ]; do
+		read -rp "$1 (y/n)" answer
+		echo ""
+		case "$answer" in
+			[Yy]*)
+				answer=1
+				break;;
+			[Nn]*)
+				answer=0
+				break;;
+			*)
+				if [ $counter -gt 3 ];then
+				echo -e "you're doing this deliberately now... please stop...\n"
+				else
+				echo -e "please answer yes or no\n"
+				let counter++
+				fi
+		esac
+	done
 }
 # ------------------- check if root --------------------------------------
 if [ $(whoami) != "root" ]
@@ -168,13 +168,12 @@ fi
 fi
 # ------------------------ End Message ------------------------------------
 echo " "
-if [ $passType = "/random" ]
-then
-echo -e "\e[1;31mIMPORTANT!\e[0;0m all passwords have been changed to RANDOM passwords"
-echo -e "\e[1;31mPLEASE!\e[0;0m write them down or AT LEAST copy and paste yours"
+if [ $passType = "/random" ]; then
+	echo -e "\e[1;31mIMPORTANT!\e[0;0m all passwords have been changed to RANDOM passwords"
+	echo -e "\e[1;31mPLEASE!\e[0;0m write them down or AT LEAST copy and paste yours"
 else
-echo -e "\e[1;31mIMPORTANT!\e[0;0m all passwords have been changed to $newPass"
-echo "(seriously... you might want to copy and paste it)"
+	echo -e "\e[1;31mIMPORTANT!\e[0;0m all passwords have been changed to $newPass"
+	echo "(seriously... you might want to copy and paste it)"
 fi
 echo ""
 echo -ne "Press \e[1;31mENTER\e[0;0m to continue"

@@ -1,6 +1,13 @@
 #!/bin/bash
 
-# this script litterally just runs other scripts so it should work
+# this script literally just runs other scripts so it should work
+directory=$(dirname $0)
+
+run () {
+	if [ -f "$directory" ]; then
+		bash "$directory/$1"
+	fi
+}
 
 answer=0
 ask_q () {
@@ -31,44 +38,38 @@ done
 # Core script : This script has which scripts get run and which order
 
 # Change passwords
-bash $PWD/"core-files"/PasswdHack
+run PasswdHack.sh
 
 # User auditing
-ask_q "would you like LinuxFix to attempt audit users? (reccomended + beta + configuration needed)"
+ask_q "would you like LinuxFix to attempt audit users? (recommended + beta + configuration needed)"
 if [ "$answer" = "1" ]; then
-	bash $PWD/"core-files"/AutoUsers
+	run AutoUsers.sh
 fi
 
 # Purge Maleware/Hacking tools
-bash $PWD/"core-files"/HackZap
-
-# Update
-ask_q "would you like LinuxFix to attempt to preform updates? (not reccomended)"
-if [ "$answer" = "1" ] ; then
-	bash $PWD/"core-files"/UpdateProtocall
-fi
+run HackZap.sh
 
 # Install critical software
-bash $PWD/"core-files"/SoftwareSuperman
+run SoftwareSuperman.sh
 
 # Settings
-bash $PWD/"core-files"/SettingsAssistant
+run SettingsAssistant.sh
 
 # File permissions
-bash $PWD/"core-files"/FileLock
+run FileLock.sh
 
 # Firewall
-ask_q "would you like LinuxFix to attempt to configure the firewall? (reccomended only if you like Trump)"
+ask_q "would you like LinuxFix to attempt to configure the firewall? (recommended only if you like Trump)"
 if [ "$answer" = "1" ]; then
-	bash $PWD/"core-files"/FirewallForger
+	run FirewallForger.sh
 fi
 
 # Firefox(Debian Only)
 if [ $(basename $(lsb_release -a 2> /dev/null | sed -n 's/.*ID://p')) = Debian ]
 then
-	ask_q "would you like Linux Fix to attempt to configure firefox? (not reccomended)"
+	ask_q "would you like Linux Fix to attempt to configure firefox? (not recommended)"
 	if [ "$answer" = "1" ]; then
-		bash $PWD/"core-files"/FirefoxFix
+		run FirefoxFix.sh
 	fi
 fi
 
@@ -82,7 +83,7 @@ echo -n "Press ENTER to continue"
 read
 
 # View user's files
-bash $PWD/"core-files"/ServerSpy
+run ServerSpy.sh
 
 # Remove .mp3 files
-bash $PWD/"core-files"/"MP3_Murderer"
+bash $directory/"MP3_Murderer.sh"

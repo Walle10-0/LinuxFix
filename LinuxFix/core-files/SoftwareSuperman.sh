@@ -8,26 +8,26 @@ bash $PWD/"core-files"/Graphics "$1"
 
 answer=0
 ask_q () {
-counter=1
-while [ true ]; do
-	read -rp "$1 (y/n)" answer
-	echo ""
-	case "$answer" in
-		[Yy]*)
-			answer=1
-			break;;
-		[Nn]*)
-			answer=0
-			break;;
-		*)
-			if [ $counter -gt 3 ];then
-			echo -e "you're doing this deliberately now... please stop...\n"
-			else
-			echo -e "please answer yes or no\n"
-			let counter++
-			fi
-	esac
-done
+	counter=1
+	while [ true ]; do
+		read -rp "$1 (y/n)" answer
+		echo ""
+		case "$answer" in
+			[Yy]*)
+				answer=1
+				break;;
+			[Nn]*)
+				answer=0
+				break;;
+			*)
+				if [ $counter -gt 3 ];then
+				echo -e "you're doing this deliberately now... please stop...\n"
+				else
+				echo -e "please answer yes or no\n"
+				let counter++
+				fi
+		esac
+	done
 }
 
 # paste_config command with fields 1=humanName 2=fileName 3=filePath 4=skipQuestion
@@ -117,7 +117,7 @@ if [ ! -d "/backup/other" ]; then
 	mkdir "/backup/other"
 fi
 
-# ------------------- main instilation script---------------------------------
+# ------------------- main installation script---------------------------------
 arr=("libpam-pwquality" "bum" "ufw" "software-properties-gtk" "coreutils")
 for VAR in "${arr[@]}"
 do

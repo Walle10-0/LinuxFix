@@ -3,7 +3,7 @@
 #lol there is nothing here
 
 echo "hello world"
-
+bash /home/me/Documents/LinuxFix/LinuxFix/core-files/test.sh
 # checks for OS
 #if [ $(basename $(lsb_release -a 2> /dev/null | sed -n 's/.*ID://p')) = Ubuntu ]; then
 # might be useful later

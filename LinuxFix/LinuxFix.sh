@@ -7,16 +7,18 @@
 
 # $PWD/"core-files"/Graphics load
 
+version="2.1"
+
 if [ $(whoami) = root ]
 then
 	if [ $(basename "$PWD") = LinuxFix ]
 	then
 		chmod +x $PWD/"core-files"/*
-		bash $PWD/"core-files"/Graphics intro
-		bash $PWD/"core-files"/LinuxFixCore
+		bash $PWD/"core-files"/Graphics.sh intro $version
+		bash $PWD/"core-files"/LinuxFixCore.sh
 		clear
 		echo " "
-		echo "Thanks for using LinuxFix v2.0! The program that Fixes your Linux!"
+		echo "Thanks for using LinuxFix v$version! The program that Fixes your Linux!"
 		echo " "
 		echo "it did a lot off stuff that I don't care to mention"
 #		echo "note : This script installed services, deleted bad stuff, removed .mp3 files, updated the computer, changed passwords, disabled the guest account (hopefully), and reset/set the firewall"
