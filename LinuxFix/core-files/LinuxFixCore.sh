@@ -1,15 +1,18 @@
 #!/bin/bash
 
 # this script literally just runs other scripts so it should work
-directory=$(dirname $0)
 
+# variables
+directory=$(dirname $0)
+answer=0
+
+# functions
 run () {
-	if [ -f "$directory" ]; then
+	if [ -f "$directory/$1" ]; then
 		bash "$directory/$1"
 	fi
 }
 
-answer=0
 ask_q () {
 counter=1
 while [ true ]; do
@@ -38,41 +41,25 @@ done
 # Core script : This script has which scripts get run and which order
 
 # Change passwords
-run PasswdHack.sh
+run "PasswdHack.sh"
 
 # User auditing
-ask_q "would you like LinuxFix to attempt audit users? (recommended + beta + configuration needed)"
+ask_q "would you like LinuxFix to attempt audit users? (recommended + configuration needed)"
 if [ "$answer" = "1" ]; then
-	run AutoUsers.sh
+	run "AutoUsers.sh"
 fi
 
 # Purge Maleware/Hacking tools
-run HackZap.sh
+run "BulkUninstall.sh"
 
 # Install critical software
-run SoftwareSuperman.sh
+run "InstalLISTtion.sh"
 
 # Settings
-run SettingsAssistant.sh
+run "SettingsAssistant.sh"
 
 # File permissions
-run FileLock.sh
-
-# Firewall
-ask_q "would you like LinuxFix to attempt to configure the firewall? (recommended only if you like Trump)"
-if [ "$answer" = "1" ]; then
-	run FirewallForger.sh
-fi
-
-# Firefox(Debian Only)
-if [ $(basename $(lsb_release -a 2> /dev/null | sed -n 's/.*ID://p')) = Debian ]
-then
-	ask_q "would you like Linux Fix to attempt to configure firefox? (not recommended)"
-	if [ "$answer" = "1" ]; then
-		run FirefoxFix.sh
-	fi
-fi
-
+run "FileLock.sh"
 
 # Friendly Reminder
 clear
@@ -83,7 +70,7 @@ echo -n "Press ENTER to continue"
 read
 
 # View user's files
-run ServerSpy.sh
+run "ServerSpy.sh"
 
 # Remove .mp3 files
-bash $directory/"MP3_Murderer.sh"
+run "MP3_Murderer.sh"

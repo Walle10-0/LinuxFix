@@ -9,8 +9,7 @@ echo "		Welcome to :"
 echo "			Firewall Forger"
 echo ""
 echo ""
-echo -n 'Press ENTER to "BUILD A WALL!"'
-read
+echo -n 'Press ENTER to "BUILD A WALL!"'; read
 echo ""
 sudo apt install ufw
 echo " "

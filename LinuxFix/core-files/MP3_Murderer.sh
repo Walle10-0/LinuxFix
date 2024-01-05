@@ -1,13 +1,6 @@
 #!/bin/bash
 
 # This script removes all ".mp3" files
-# I know it's simple :/
-
-error_sign () {
-	echo ""
-	echo -e "			\e[1;31mERROR \e[0;0m"
-	echo ""
-}
 
 # Begining Message
 clear
@@ -44,15 +37,11 @@ if [ $answer = 1 ]; then
 		# actually destroy MP3 files
 		sudo updatedb
 		sudo locate -0 --regex ".*\.mp3$" | xargs -t0 sudo rm
-		#idk why I run this twice but it doesn't hurt
-		sudo updatedb
-		sudo locate -0 --regex ".*\.mp3$" | xargs -t0 sudo rm
 	else
 		# iff locate is not found... try "find" command
-		error_sign
-		echo "		locate command not found..."
-		echo "		...attempting alternate method..."
 		echo ""
+		echo "	locate command not found..."
+		echo "	...attempting alternate method..."
 		echo ""
 		find / -name *.mp3 -print -delete
 		echo ""

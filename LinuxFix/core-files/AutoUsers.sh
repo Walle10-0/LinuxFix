@@ -62,6 +62,7 @@ error_sign () {
 	echo ""
 	echo "	$1"
 	echo ""
+	echo -ne "Press \e[1;31mENTER\e[0;0m to exit"; read
 	exit
 }
 

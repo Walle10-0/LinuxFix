@@ -5,14 +5,10 @@
 # --------------------------- defining functions ---------------------------
 # creates an ERROR sign
 error_sign () {
-	echo ""
-	echo -e "			\e[1;31mERROR \e[0;0m"
-	echo ""
+	echo -e "\n			\e[1;31mERROR \e[0;0m\n"
 	echo "	$1"
 	echo ""
 }
-
-clear
 
 # generates a password
 genPass () {
@@ -46,7 +42,9 @@ ask_q () {
 		esac
 	done
 }
+
 # ------------------- check if root --------------------------------------
+clear
 if [ $(whoami) != "root" ]
 then
 	error_sign "Please sign in as root to use this."
@@ -54,30 +52,30 @@ then
 fi
 
 # ------------------------------ Begining Message -------------------------
-echo ""
-echo "			PasswdHack v3.0"
-echo ""
-echo "		Change Everybody's Passwords"
-echo "		without permission!	;D"
-echo ""
+echo "
+			PasswdHack v3.0
+			
+		Change Everybody's Passwords
+		without permission!	;D
+"
 echo -ne "Press \e[1;31mENTER\e[0;0m to start changing passwords >:D"
 read
 #---------------------------prompt password type-------------------------
 newPass="[D-f@ulT]"
 
-echo ""
-echo "         Type a new password for everybody"
-echo ""
-echo "Examples:"
-echo "   - [D-f@ulT]
+echo "
+         Type a new password for everybody
+
+Examples:
+   - [D-f@ulT]
    - |5g_WASD[g00d]
    - (L0v3L!nux)
    - N3wR@ssw0rd!
-   - S0Rt&S3wEt"
-echo ""
-echo 'type "/random" to generate unique random passwords for everybody'
-echo 'type "/skip" to skip setting passwords'
-echo ""
+   - S0Rt&S3wEt
+
+type '/random' to generate unique random passwords for everybody
+type '/skip' to skip setting passwords
+"
 read -rp "Password: " passType
 newPass=$passType
 if [ $passType != "/skip" ]; then
