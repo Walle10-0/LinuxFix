@@ -13,7 +13,11 @@ error_sign () {
 # generates a password
 genPass () {
 	if [ $passType = "/random" ]; then
-		newPass=$(apg -a 0 -n 1 -m 4 -x 8)$(apg -a 1 -n 1 -m 2 -x 4)
+		if (command -v apg &> /dev/null); then
+			newPass=$(apg -a 0 -n 1 -m 4 -x 8)$(apg -a 1 -n 1 -m 2 -x 4)
+		else
+			newPass=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;)
+		fi
 		export newPass
 	fi
 }
@@ -78,7 +82,11 @@ type '/skip' to skip setting passwords
 "
 read -rp "Password: " passType
 newPass=$passType
+
 if [ $passType != "/skip" ]; then
+
+echo "save passwords to file? leave blank if no file."
+read -rp "Output File: " outFile
 
 # ----------------------------- Password changing-------------------------
 # chpasswd is in /usr/sbin/chpasswd just fyi
@@ -93,6 +101,9 @@ then
 		echo "$VAR:$newPass" | chpasswd
 		echo "$VAR's password has been changed to $newPass"
 		echo ""
+		if [ -n "$outFile" ]; then
+			echo -e "\n$VAR\n$newPass" >> $outFile
+		fi
 	done
 else
 # ----------------------- subscript ------------------------------
@@ -116,6 +127,9 @@ else
 			echo -e "$newPass\n$newPass" | passwd $VAR
 			echo "$VAR's password has been changed to $newPass"
 			echo ""
+			if [ -n "$outFile" ]; then
+				echo -e "\n$VAR\n$newPass" >> $outFile
+			fi
 		done
 	fi
 fi
